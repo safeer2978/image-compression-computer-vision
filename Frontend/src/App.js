@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {RadioGroup, Radio} from "react-radio-group"
+import axios from 'axios';
 import "./App.css";
 import { useSpring, animated } from "react-spring";
 
@@ -33,7 +34,52 @@ function App() {
   }
   function loginClicked() {
     setRegistartionFormStatus(false);
+
   }
+
+
+
+  function onPcaSend(){
+    var file_path_str = file_path;
+    file_path_str = file_path_str.replaceAll("\\", " ") 
+    file_path_str = file_path_str.replace("fakepath","\\Users\\safee")
+    console.log(file_path_str)
+
+    const payload = {
+      "file_path": file_path_str
+    }
+
+    console.log(payload)
+
+    axios.post('http://127.0.0.1:5000/pca', payload)
+    .then((response) => {
+      console.log(response);
+      window.alert("file compressed! kindly check");
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  function onKmeansSend(){
+    var file_path_str = file_path;
+    file_path_str = file_path_str.replaceAll("\\", " ") 
+    file_path_str = file_path_str.replace("fakepath","\\Users\\safee")
+    console.log(file_path_str)
+
+    const payload = {
+      "file_path": file_path_str
+    }
+    console.log(payload)
+    axios.post('http://127.0.0.1:5000/kMeans', payload)
+    .then((response) => {
+      console.log(response);
+      window.alert("file compressed! kindly check");
+    }, (error) => {
+      console.log(error);
+    });
+    window.alert("sending file, kindly wait");
+  }
+
 
   return (
     <div>
@@ -90,6 +136,7 @@ function LoginForm() {
       <input type="button" value="submit" className="submit" onClick={()=>{
         console.log(file_path)
         console.log(param)
+        onPcaSend()
       }}/>
     </React.Fragment>
   );
@@ -108,7 +155,7 @@ function InputFile(){
       <table style={{marginLeft:120}}>
         <tr>
           <tc>Image size:
-            <h2 value={file_path}/>
+            <h2/>
           </tc>
           <tc>123</tc>
         </tr>
@@ -135,8 +182,7 @@ function RegisterForm() {
         <Radio value={32} style={{ width: 'auto' }}/><h3 style={{padding:5}} onClick={setParam(32)}>32</h3>
         <Radio value={64} style={{ width: 'auto' }}/><h3 style={{padding:5}} onClick={setParam(64)}>64</h3>
       </RadioGroup>
-      <input  value="send" className="submit" />
-      <input  value="result" className="submit" style={{marginLeft:5}}/>
+      <input  type="button" value="send"  onClick={()=>{onKmeansSend()}} />
     </React.Fragment>
   );
 }

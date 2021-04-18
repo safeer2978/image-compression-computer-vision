@@ -1,4 +1,5 @@
 import flask
+from flask_cors import CORS
 from flask import Flask,jsonify,request,make_response,url_for,redirect
 import requests, json
 app = flask.Flask(__name__)
@@ -104,4 +105,5 @@ def kMeans():
 
     return "idk when itll be done.."
 
+CORS(app)
 app.run()
