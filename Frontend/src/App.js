@@ -7,7 +7,7 @@ import { useSpring, animated } from "react-spring";
 function App() {
 
   const [file_path, setFilePath] = useState("343");
-  const [param, setParam] = useState("");
+  const [param, setParam] = useState(" ");
 
 
   const [registrationFormStatus, setRegistartionFormStatus] = useState(false);
@@ -40,13 +40,15 @@ function App() {
 
 
   function onPcaSend(){
+    console.log(param)
     var file_path_str = file_path;
     file_path_str = file_path_str.replaceAll("\\", " ") 
     file_path_str = file_path_str.replace("fakepath","\\Users\\safee")
     console.log(file_path_str)
 
     const payload = {
-      "file_path": file_path_str
+      "file_path": file_path_str,
+      "param": param
     }
 
     console.log(payload)
@@ -67,7 +69,8 @@ function App() {
     console.log(file_path_str)
 
     const payload = {
-      "file_path": file_path_str
+      "file_path": file_path_str,
+      "param": param
     }
     console.log(payload)
     axios.post('http://127.0.0.1:5000/kMeans', payload)
@@ -124,15 +127,8 @@ function LoginForm() {
   return (
     <React.Fragment>
       
-      <h2 style={{padding:5}}>Select number of Principal components</h2>
-      <RadioGroup name="fruit" selectedValue={param} onChange={(e)=>{
-        setParam(25) 
-        console.log(e.value)}} style={{ display: 'flex' , width: 'auto', marginLeft:120}}>
-        <Radio value={"25"} style={{ width: 'auto' }}/><h3 style={{padding:5}} >25</h3>
-        <Radio value={50} style={{ width: 'auto' }}/><h3 style={{padding:5}} >50</h3>
-        <Radio value={75} style={{ width: 'auto' }}/><h3 style={{padding:5}} >75</h3>
-        <Radio value={100} style={{ width: 'auto' }}/><h3 style={{padding:5}} >100</h3>
-      </RadioGroup>
+      <h2 style={{padding:5}}>Enter number of Principal components</h2>
+      <input type="text" value={param} onChange={(e)=>{setParam(e.target.value)}} />
       <input type="button" value="submit" className="submit" onClick={()=>{
         console.log(file_path)
         console.log(param)
@@ -152,22 +148,7 @@ function InputFile(){
         console.log(e.target.value)
         console.log(file_path)
       }}/>
-      <table style={{marginLeft:120}}>
-        <tr>
-          <tc>Image size:
-            <h2/>
-          </tc>
-          <tc>123</tc>
-        </tr>
-        <tr>
-          <tc>Image dimensions:</tc>
-          <tc>123</tc>
-        </tr>
-        <tr>
-          <tc>Image format:</tc>
-          <tc>123</tc>
-        </tr>
-      </table>
+
     </div>
   )
 }
@@ -175,13 +156,9 @@ function InputFile(){
 function RegisterForm() {
   return (
     <React.Fragment>
-      <h2 style={{padding:5}}>Select number of Clusters </h2>
+      <h2 style={{padding:5}}>Enter number of Clusters </h2>
       <h3 style={{paddingLeft:5}}>Color Bit Rate</h3>
-      <RadioGroup name="fruit" style={{ display: 'flex' , width: 'auto', marginLeft:130}}>
-        <Radio value={16} style={{ width: 'auto' }}/><h3 style={{padding:5}} onChange={setParam(16)}>16</h3>
-        <Radio value={32} style={{ width: 'auto' }}/><h3 style={{padding:5}} onClick={setParam(32)}>32</h3>
-        <Radio value={64} style={{ width: 'auto' }}/><h3 style={{padding:5}} onClick={setParam(64)}>64</h3>
-      </RadioGroup>
+      <input type="text" value={param} onChange={(e)=>{setParam(e.target.value)}} />
       <input  type="button" value="send"  onClick={()=>{onKmeansSend()}} />
     </React.Fragment>
   );
